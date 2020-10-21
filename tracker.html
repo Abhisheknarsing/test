@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+</head>
+
+<body>
+ <nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/track?filename={{ filename[0] }}">WebSiteName</a>
+    </div>
+    
+  </div>
+</nav> 
+<h3 class="text-center"><strong>Tracker<strong></h3><hr>
+<div class="container-fluid">
+<div class="row">
+<div class="col-sm-9">
+<table id="datatabledata" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>SKU</th>
+                <th>Before Quantity</th>
+                <th>Now Quantity</th>
+                <th>Change</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for temp in data %}
+            <tr>
+                <td>{{ temp[0] }}</td>
+                <td>{{ temp[2] }}</td>
+                <td>{{ temp[1] }}</td>
+                <td><button onclick="makeachange('{{ temp[0] }}',{{ temp[1] }})" class="btn btn-success">change</button></td>
+                
+            </tr>
+        {% endfor %}
+           
+        </tbody>
+    </table>
+</div>
+</div>
+<div>
+
+
+</body>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#datatabledata').DataTable();
+} );
+
+function makeachange(sku,quantity){
+
+$.ajax({
+        type: 'GET',
+        url: '/changeValue?filename={{ filename[0] }}&sku='+sku+'&quantity='+quantity,
+        success: function(data){
+          alert(data);
+        }
+    });
+
+}
+</script>
+</html>
